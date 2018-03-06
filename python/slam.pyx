@@ -33,7 +33,7 @@ cdef extern from "System.h" namespace "ORB_SLAM2":
 
   cdef cppclass System:
 
-    enum eSensor:
+    enum eSensor "eSensor":
       MONOCULAR = 0
       STEREO = 1
       RGBD = 2

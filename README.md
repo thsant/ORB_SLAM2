@@ -1,4 +1,4 @@
-# ORB-SLAM2 4 3-Demeter Capture
+# ORB-SLAM2 for 3-Demeter Capture
 
 This is a fork of the (excellent) Mur-Artal's ORB-SLAM2 visual odometer system, modified to be used by 3-Demeter Capture. The modifications are listed below:
 

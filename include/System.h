@@ -22,6 +22,7 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+#include<unistd.h>
 #include<string>
 #include<thread>
 #include<opencv2/core/core.hpp>
@@ -89,6 +90,9 @@ public:
     // Reset the system (clear map)
     void Reset();
 
+    // Check if the current frame was selected as a keyframe
+    bool isCurFrameAKeyFrame();
+
     // All threads will be requested to finish.
     // It waits until all threads have finished.
     // This function must be called before saving the trajectory.
@@ -121,6 +125,10 @@ public:
     int GetTrackingState();
     std::vector<MapPoint*> GetTrackedMapPoints();
     std::vector<cv::KeyPoint> GetTrackedKeyPointsUn();
+
+    // Get good 3-D map points, as a n x 3 matrix (n is the number of
+    // "good points")
+    cv::Mat GetGoodMapPoints();
 
 private:
 

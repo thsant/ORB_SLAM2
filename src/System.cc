@@ -22,6 +22,7 @@
 
 #include "System.h"
 #include "Converter.h"
+#include <unistd.h>
 #include <thread>
 #include <pangolin/pangolin.h>
 #include <iomanip>
@@ -119,7 +120,7 @@ cv::Mat System::TrackStereo(const cv::Mat &imLeft, const cv::Mat &imRight, const
     {
         cerr << "ERROR: you called TrackStereo but input sensor was not set to STEREO." << endl;
         exit(-1);
-    }   
+    }
 
     // Check mode change
     {
@@ -170,7 +171,7 @@ cv::Mat System::TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const doub
     {
         cerr << "ERROR: you called TrackRGBD but input sensor was not set to RGBD." << endl;
         exit(-1);
-    }    
+    }
 
     // Check mode change
     {
@@ -296,6 +297,11 @@ void System::Reset()
 {
     unique_lock<mutex> lock(mMutexReset);
     mbReset = true;
+}
+
+bool System::isCurFrameAKeyFrame()
+{
+    return mpTracker->isCurFrameAKeyFrame();
 }
 
 void System::Shutdown()
@@ -487,6 +493,35 @@ vector<cv::KeyPoint> System::GetTrackedKeyPointsUn()
 {
     unique_lock<mutex> lock(mMutexState);
     return mTrackedKeyPointsUn;
+}
+
+cv::Mat System::GetGoodMapPoints()
+{
+
+    const vector<MapPoint*> &vpMPs = mpMap->GetAllMapPoints();
+    if(vpMPs.empty())
+        return cv::Mat(0, 3, CV_32F);
+
+    int num_points = vpMPs.size();
+    cv::Mat pointsXYZ = cv::Mat(num_points, 3, CV_32F);
+
+    for(size_t i=0, iend=vpMPs.size(); i<iend;i++)
+    {
+        if(!vpMPs[i]->isBad())
+        {
+            cv::Mat pos = vpMPs[i]->GetWorldPos();
+            pointsXYZ.at<float>(i,0) = pos.at<float>(0);
+            pointsXYZ.at<float>(i,1) = pos.at<float>(1);
+            pointsXYZ.at<float>(i,2) = pos.at<float>(2);
+        }
+        else
+        {
+            pointsXYZ.at<float>(i,0) = 0;
+            pointsXYZ.at<float>(i,1) = 0;
+            pointsXYZ.at<float>(i,2) = 0;
+        }
+    }
+    return pointsXYZ.clone();
 }
 
 } //namespace ORB_SLAM

@@ -51,7 +51,7 @@ class LoopClosing;
 class System;
 
 class Tracking
-{  
+{
 
 public:
     Tracking(System* pSys, ORBVocabulary* pVoc, FrameDrawer* pFrameDrawer, MapDrawer* pMapDrawer, Map* pMap,
@@ -115,6 +115,9 @@ public:
 
     void Reset();
 
+    // Check if the current frame was selected as a keyframe
+    bool isCurFrameAKeyFrame();
+
 protected:
 
     // Main tracking function. It is independent of the input sensor.
@@ -169,10 +172,10 @@ protected:
     KeyFrame* mpReferenceKF;
     std::vector<KeyFrame*> mvpLocalKeyFrames;
     std::vector<MapPoint*> mvpLocalMapPoints;
-    
+
     // System
     System* mpSystem;
-    
+
     //Drawers
     Viewer* mpViewer;
     FrameDrawer* mpFrameDrawer;

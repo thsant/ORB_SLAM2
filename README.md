@@ -1,3 +1,13 @@
+# ORB-SLAM2 4 3-Demeter Capture
+
+This is a fork of the (excellent) Mur-Artal's ORB-SLAM2 visual odometer system, modified to be used by 3-Demeter Capture. The modifications are listed below:
+
+* `GetGoodMapPoints` is added to allow applications to get a copy of ORB-SLAM internal map
+* `isCurFrameAKeyFrame` is added to allow 3-Demeter Capture to identify KeyFrames
+* A Python 2.7 module is added, allowing Python access to the `System` object (named `VOSystem`)
+
+Below, the original ORB-SLAM2 `README`:
+
 # ORB-SLAM2
 **Authors:** [Raul Mur-Artal](http://webdiis.unizar.es/~raulmur/), [Juan D. Tardos](http://webdiis.unizar.es/~jdtardos/), [J. M. M. Montiel](http://webdiis.unizar.es/~josemari/) and [Dorian Galvez-Lopez](http://doriangalvez.com/) ([DBoW2](https://github.com/dorian3d/DBoW2))
 

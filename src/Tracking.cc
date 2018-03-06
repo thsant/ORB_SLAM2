@@ -916,7 +916,7 @@ bool Tracking::TrackWithMotionModel()
             else if(mCurrentFrame.mvpMapPoints[i]->Observations()>0)
                 nmatchesMap++;
         }
-    }    
+    }
 
     if(mbOnlyTracking)
     {
@@ -1547,6 +1547,11 @@ void Tracking::Reset()
 
     if(mpViewer)
         mpViewer->Release();
+}
+
+bool Tracking::isCurFrameAKeyFrame()
+{
+    return abs(mpLastKeyFrame->mTimeStamp - mCurrentFrame.mTimeStamp) < 0.000001;
 }
 
 void Tracking::ChangeCalibration(const string &strSettingPath)

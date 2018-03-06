@@ -29,3 +29,8 @@ mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j
+cd ..
+
+echo "Configuring and building Python module ..."
+cd python
+python setup.py build_ext --inplace
